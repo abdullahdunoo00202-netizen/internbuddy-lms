@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LMS Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+
+<!-- PARTICLES -->
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>InternBuddy LMS</h2>
+    <a href="/lms/logout">Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- PROFILE + PROGRESS -->
+    <div class="glass-card profile">
+
+        <h3>{{ student.lms_email }}</h3>
+
+        <div class="profile-info">
+            <p><strong>Domain:</strong> {{ student.domain }}</p>
+            <p><strong>Duration:</strong> {{ student.duration }}</p>
+            <p><strong>Internship:</strong> InternBuddy Program</p>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="progress-box">
+            <p><strong>Progress:</strong> {{ progress }}%</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ progress }}%;"></div>
+            </div>
+
+            <p><strong>Marks:</strong> {{ obtained_marks }} / {{ total_marks }}</p>
+        </div>
+
+    </div>
+
+    <!-- TASK HEADER -->
+    <div class="tasks-header">
+        <h2>Assigned Tasks</h2>
+    </div>
+
+    <!-- TASKS -->
+    <div class="tasks-container">
+        {% for task in tasks %}
+        <div class="glass-card task">
+
+            <!-- TOP -->
+            <div class="task-top">
+                <h4>{{ task.title }}</h4>
+
+                {% if task._id|string in submitted_task_ids %}
+                    <span class="status submitted-text">Submitted</span>
+                {% else %}
+                    <span class="status pending-text">Pending</span>
+                {% endif %}
+            </div>
+
+            <!-- DESCRIPTION -->
+            <p>{{ task.description }}</p>
+
+            <!-- DEADLINE -->
+            <p class="deadline">
+                Deadline: {{ task.deadline.strftime('%Y-%m-%d') }}
+            </p>
+
+            <!-- MARKS -->
+            {% if task._id|string in submitted_task_ids %}
+                <p class="marks">Marks: 5 / 5</p>
+            {% else %}
+                <p class="marks">Marks: 0 / 5</p>
+            {% endif %}
+
+            <!-- ACTION -->
+            {% if task._id|string in submitted_task_ids %}
+                <button class="submitted-btn">Completed</button>
+            {% else %}
+                <form class="upload-form" enctype="multipart/form-data">
+                    <div class="upload-box">
+                        <input type="file" name="file" required>
+                        <input type="hidden" name="task_id" value="{{ task._id|string }}">
+                        <button type="submit">Upload & Submit</button>
+                    </div>
+                </form>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- ✅ COMPLETE BUTTON (FIXED POSITION) -->
+    {% if all_completed %}
+    <div class="complete-box">
+        <p>🎉 You have successfully completed all tasks!</p>
+        <a href="/lms/certificate" class="complete-btn">
+            Complete Internship
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+<script src="/static/js/particles.js"></script>
+<script src="/static/js/dashboard.js"></script>
+
+</body>
+</html>

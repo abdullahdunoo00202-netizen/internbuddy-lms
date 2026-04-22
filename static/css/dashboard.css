@@ -1,0 +1,229 @@
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Poppins', sans-serif;
+    color: white;
+    background: linear-gradient(135deg, #5f6cff, #00c6ff);
+}
+
+/* PARTICLES */
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 50px;
+    font-size: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+/* MAIN */
+.main {
+    padding: 40px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+/* GLASS CARD */
+.glass-card {
+    background: rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 28px 30px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+}
+
+/* PROFILE */
+.profile {
+    margin-bottom: 40px;
+}
+
+.profile h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.profile-info p {
+    margin: 6px 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+/* PROGRESS */
+.progress-box {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00c6ff, #5f6cff);
+}
+
+/* TASK GRID */
+.tasks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
+}
+
+/* TASK CARD */
+.task {
+    padding: 25px;
+    transition: 0.3s;
+}
+
+.task:hover {
+    transform: translateY(-6px);
+}
+
+/* TASK TOP */
+.task-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* STATUS */
+.status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.pending-text {
+    background: #ff9800;
+}
+
+.submitted-text {
+    background: #00c853;
+}
+
+/* DEADLINE */
+.deadline {
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+/* MARKS */
+.marks {
+    margin-top: 10px;
+}
+
+/* BUTTON */
+button {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00c6ff, #5f6cff);
+    color: white;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* COMPLETED BUTTON */
+.submitted-btn {
+    background: rgba(0,255,120,0.15);
+    color: #00ff90;
+}
+
+/* ========================= */
+/* 🔥 FINAL UPLOAD FIX */
+/* ========================= */
+
+.upload-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* FILE INPUT FIX */
+.upload-box input[type="file"] {
+    flex: 1;
+    min-width: 0;
+    background: rgba(255,255,255,0.08);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-size: 13px;
+}
+
+/* BUTTON FIX */
+.upload-box button {
+    flex-shrink: 0;
+}
+
+/* FILE BUTTON */
+input[type="file"]::file-selector-button {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .main {
+        padding: 20px;
+    }
+
+    .upload-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .upload-box button {
+        width: 100%;
+    }
+}
+
+.complete-box {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.complete-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00c6ff, #5f6cff);
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.complete-btn:hover {
+    transform: scale(1.05);
+}

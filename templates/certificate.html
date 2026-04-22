@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>InternBuddy Certificate</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* MAIN CERTIFICATE */
+.certificate {
+    width: 1000px;
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    text-align: center;
+    border: 8px solid #5f6cff;
+    margin-top: 30px;
+}
+
+/* TITLE */
+.title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: #1E2A5E;
+}
+
+/* SUBTEXT */
+.subtitle {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #555;
+}
+
+/* NAME */
+.name {
+    font-size: 40px;
+    font-weight: 700;
+    color: #5f6cff;
+    margin: 25px 0;
+}
+
+/* DESCRIPTION */
+.desc {
+    font-size: 18px;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* DOMAIN */
+.domain {
+    font-weight: 600;
+    color: #0056a7;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* SIGNATURE BLOCK */
+.signature {
+    text-align: center;
+}
+
+/* SIGNATURE STYLE */
+.sign-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+.line {
+    width: 180px;
+    height: 2px;
+    background: #333;
+    margin: 5px auto;
+}
+
+.sign-title {
+    font-size: 14px;
+    color: #555;
+}
+
+/* CERT ID */
+.cert-id {
+    margin-top: 30px;
+    font-size: 14px;
+    background: #eef2ff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* LOGO */
+.logo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5f6cff;
+    margin-bottom: 20px;
+}
+
+/* DOWNLOAD BUTTON */
+.download-btn {
+    margin: 30px 0;
+    padding: 12px 22px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #5f6cff, #00c6ff);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.download-btn:hover {
+    transform: scale(1.05);
+}
+
+/* HIDE BUTTON IN PDF */
+@media print {
+    .download-btn {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- DOWNLOAD BUTTON -->
+<button onclick="downloadPDF()" class="download-btn">
+    Download Certificate
+</button>
+
+<div class="certificate" id="certificate">
+
+    <div class="logo">InternBuddy</div>
+
+    <div class="title">Certificate of Internship</div>
+    <div class="subtitle">This is to certify that</div>
+
+    <div class="name" id="studentName">Loading...</div>
+
+    <div class="desc">
+        has successfully completed a <b>3-month internship</b> in
+        <span class="domain" id="studentDomain">---</span>
+        at InternBuddy with dedication and excellence.
+    </div>
+
+    <div class="desc">
+        We appreciate your effort and wish you success in your future.
+    </div>
+
+    <!-- CERT ID -->
+    <div class="cert-id" id="certId">CERT ID: LOADING...</div>
+
+    <!-- SIGNATURES -->
+    <div class="footer">
+
+        <div class="signature">
+            <div class="sign-name">Eleanor Vance</div>
+            <div class="line"></div>
+            <div class="sign-title">Authorized Signatory</div>
+        </div>
+
+        <div class="signature">
+            <div class="sign-name">Marcus Chen</div>
+            <div class="line"></div>
+            <div class="sign-title">CEO, InternBuddy</div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 🔥 FLASK DATA -->
+<script>
+window.student = {
+    name: "{{ student.name if student.name else student.lms_email }}",
+    lms_email: "{{ student.lms_email }}",
+    domain: "{{ student.domain }}"
+};
+</script>
+
+<!-- 🔥 DYNAMIC DATA -->
+<script>
+let student = window.student;
+
+document.getElementById("studentName").innerText =
+    student.name || student.lms_email;
+
+document.getElementById("studentDomain").innerText =
+    student.domain || "Internship Program";
+
+function generateCertId(name) {
+    let initials = name.split(" ").map(n => n[0]).join("").toUpperCase();
+    let random = Math.floor(Math.random() * 9000 + 1000);
+    let year = new Date().getFullYear();
+    return `IB-${initials}-${year}-${random}`;
+}
+
+document.getElementById("certId").innerText =
+    "CERT ID: " + generateCertId(student.name);
+</script>
+
+<!-- 🔥 PDF LIB -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- 🔥 DOWNLOAD FUNCTION -->
+<script>
+function downloadPDF() {
+    const element = document.getElementById("certificate");
+
+    const opt = {
+        margin: 0,
+        filename: 'InternBuddy_Certificate.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+
+</body>
+</html>
