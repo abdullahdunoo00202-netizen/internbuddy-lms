@@ -1,34 +1,22 @@
 from supabase import create_client
-from dotenv import load_dotenv
 import os
 
 # ===============================
-# LOAD ENV
+# GET ENV VARIABLES (RENDER SAFE)
 # ===============================
-load_dotenv()
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
 # ===============================
-# GET ENV VARIABLES
+# SAFE INIT (NO CRASH)
 # ===============================
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_SERVICE_KEY")   # ✅ FIXED (important)
+supabase = None
 
-# ===============================
-# DEBUG (remove later)
-# ===============================
-print("SUPABASE URL:", url)
-print("SUPABASE KEY:", key)
-
-# ===============================
-# VALIDATION
-# ===============================
-if not url:
-    raise ValueError("❌ SUPABASE_URL missing in .env")
-
-if not key:
-    raise ValueError("❌ SUPABASE_SERVICE_KEY missing in .env")
-
-# ===============================
-# CREATE CLIENT
-# ===============================
-supabase = create_client(url, key)
+if SUPABASE_URL and SUPABASE_KEY:
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        print("✅ Supabase Connected")
+    except Exception as e:
+        print("❌ Supabase init error:", e)
+else:
+    print("⚠️ Supabase ENV missing (App will still run)")
